@@ -7,6 +7,8 @@ package projetturing;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 import javax.swing.*;
 
@@ -42,6 +44,28 @@ public class ProjetTuring extends JFrame{
         
         Box box=new Box(BoxLayout.PAGE_AXIS);
         box.add(p);
+        
+        JButton add=new JButton("Ajouter charactère");
+		
+        add.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				
+				modele.setChar(modele.ruban.size(),Character.getName((int)Math.round(Math.random()*9)).toCharArray()[0]);
+			}
+        	
+        });
+        
+        this.addMouseWheelListener(new MouseWheelListener() {
+
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent arg0) {
+				// TODO Auto-generated method stub
+				modele.scroll(arg0.getWheelRotation()*arg0.getScrollAmount());
+			}
+        	
+        });
+        box.add(add);
         
         this.getContentPane().add(box);
         this.pack();

@@ -26,6 +26,7 @@ public class Machine extends Observable{
     private int etat;
     private int vitesse;
     private int etape;
+    private int offset;
 
     public Machine() {
         this.ruban = new ArrayList<Character>();
@@ -34,6 +35,7 @@ public class Machine extends Observable{
         this.etat = 0;
         this.vitesse = 1;
         this.etape = 0;
+        this.offset=0;
     }
 
     public char getChar(int pos) {
@@ -130,5 +132,17 @@ public class Machine extends Observable{
     public void setState(int state){
         this.etat=state;
     }
+    
+    public void scroll(int delta) {
+    	this.offset+=delta;
+    	this.setChanged();
+        this.notifyObservers();
+    }
+    
+    public int getOffset() {
+    	return this.offset;
+    }
+    
+
 
 }
