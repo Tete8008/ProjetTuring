@@ -13,7 +13,7 @@ import javax.swing.*;
 public class PanelRuban extends JPanel implements Observer{
 	private Machine modele;
 	private int marginTop;
-	private int caseWidth;
+	public int caseWidth;
 	private int marginSide;
 	private int offset;
 	public PanelRuban(Machine m) {
@@ -58,8 +58,8 @@ public class PanelRuban extends JPanel implements Observer{
 		}
 		
 		//écriture des charactères:
-		for (int i=0;i<modele.ruban.size();i++) {
-			g.drawString(modele.ruban.get(i).toString(),modele.getOffset()+marginSide+caseWidth/2+caseWidth*i,marginTop+caseWidth/2);
+		for (int i=-modele.ruban.getLeftSize();i<modele.ruban.getRightSize();i++) {
+			g.drawString(modele.ruban.getChar(i).toString(),modele.getOffset()+marginSide+caseWidth/2+caseWidth*i,marginTop+caseWidth/2);
 		}
 		
 	}

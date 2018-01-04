@@ -20,7 +20,7 @@ import java.util.Vector;
  */
 public class Machine extends Observable{
 
-    public ArrayList<Character> ruban;
+    public Ruban ruban;
     private Map<Condition, Action> regles;
     private int position;
     private int etat;
@@ -29,7 +29,7 @@ public class Machine extends Observable{
     private int offset;
 
     public Machine() {
-        this.ruban = new ArrayList<Character>();
+        this.ruban = new Ruban();
         this.regles = new HashMap<Condition, Action>();
         this.position = 0;
         this.etat = 0;
@@ -39,13 +39,13 @@ public class Machine extends Observable{
     }
 
     public char getChar(int pos) {
-        return (char) ruban.get(pos);
+        return (char) ruban.getChar(pos);
     }
 
-    public void setChar(int pos, char c) {
-        ruban.add(pos, c);
+    public void addChar(int pos, char c) {
+        ruban.addChar(c,pos);
         this.setChanged();
-        this.notifyObservers(new Vector(pos,c));
+        this.notifyObservers();
     }
 
     public void addRule(Condition a, Action c) {
@@ -55,7 +55,7 @@ public class Machine extends Observable{
     public void applyRule(int etat, char car) {
         Action c=this.getAction(new Condition(etat,car));
         this.setState(c.getNewState());
-        this.setChar(this.position, c.getNewChar());
+        this.addChar(this.position, c.getNewChar());
         if (c.getMove()=='>'){
             this.setPosition(this.position+1);
         }else
@@ -143,6 +143,9 @@ public class Machine extends Observable{
     	return this.offset;
     }
     
+    public void setOffset(int os) {
+    	this.offset=os;
+    }
 
 
 }

@@ -35,7 +35,7 @@ public class ProjetTuring extends JFrame{
         modele.addRule(c, new Action(0,'N','>'));
         System.out.println(modele.getAction(new Condition(0,'Z')));
         
-        modele.setChar(0, 'y');
+        modele.addChar(0, 'y');
         
         
         PanelRuban p=new PanelRuban(modele);
@@ -45,27 +45,42 @@ public class ProjetTuring extends JFrame{
         Box box=new Box(BoxLayout.PAGE_AXIS);
         box.add(p);
         
-        JButton add=new JButton("Ajouter charactère");
+        JButton add=new JButton("Ajouter charactère à droite");
 		
         add.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				
-				modele.setChar(modele.ruban.size(),Character.getName((int)Math.round(Math.random()*9)).toCharArray()[0]);
+				modele.addChar(modele.ruban.getRightSize(),Character.getName((int)Math.round(Math.random()*50)).toCharArray()[0]);
+				modele.setOffset(-modele.ruban.getRightSize()*p.caseWidth+200);
 			}
         	
         });
+        box.add(add);
+        
+        JButton add2=new JButton("Ajouter charactère à gauche");
+		
+        add2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				modele.addChar(-(modele.ruban.getLeftSize())-1,Character.getName((int)Math.round(Math.random()*50)).toCharArray()[0]);
+				modele.setOffset(modele.ruban.getLeftSize()*p.caseWidth+200);
+
+			}
+        	
+        });
+        box.add(add2);
         
         this.addMouseWheelListener(new MouseWheelListener() {
 
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent arg0) {
 				// TODO Auto-generated method stub
-				modele.scroll(arg0.getWheelRotation()*arg0.getScrollAmount());
+				modele.scroll(arg0.getWheelRotation()*arg0.getScrollAmount()*3);
+				
 			}
         	
         });
-        box.add(add);
+        
         
         this.getContentPane().add(box);
         this.pack();
