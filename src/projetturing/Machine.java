@@ -27,6 +27,7 @@ public class Machine extends Observable{
     private int vitesse;
     private int etape;
     private int offset;
+    private int caseWidth;
 
     public Machine() {
         this.ruban = new Ruban();
@@ -36,6 +37,7 @@ public class Machine extends Observable{
         this.vitesse = 1;
         this.etape = 0;
         this.offset=0;
+        this.caseWidth=40;
     }
 
     public char getChar(int pos) {
@@ -53,6 +55,8 @@ public class Machine extends Observable{
     }
 
     public void applyRule(int etat, char car) {
+    	//application de la règle
+    	/*
         Action c=this.getAction(new Condition(etat,car));
         this.setState(c.getNewState());
         this.addChar(this.position, c.getNewChar());
@@ -61,7 +65,12 @@ public class Machine extends Observable{
         }else
         if (c.getMove()=='<'){
             this.setPosition(this.position-1);
-        }
+        }*/
+    	
+    	this.setPosition(this.getPosition()+1);
+    	this.setState(etat+1);
+    	this.setChanged();
+    	this.notifyObservers();
         
     }
 
@@ -92,6 +101,8 @@ public class Machine extends Observable{
 
     public void setSpeed(int v) {
         this.vitesse = v;
+        this.setChanged();
+        this.notifyObservers();
     }
 
     public int getSpeed() {
@@ -123,6 +134,8 @@ public class Machine extends Observable{
 
     public void setPosition(int p) {
         this.position = p;
+        this.setChanged();
+        this.notifyObservers();
     }
     
     public void launchAutomaticExecution(){
@@ -131,6 +144,8 @@ public class Machine extends Observable{
     
     public void setState(int state){
         this.etat=state;
+        this.setChanged();
+        this.notifyObservers();
     }
     
     public void scroll(int delta) {
@@ -146,6 +161,13 @@ public class Machine extends Observable{
     public void setOffset(int os) {
     	this.offset=os;
     }
-
+    
+    public int getCaseWidth() {
+    	return this.caseWidth;
+    }
+    
+    public void setCaseWidth(int cw) {
+    	this.caseWidth=cw;
+    }
 
 }

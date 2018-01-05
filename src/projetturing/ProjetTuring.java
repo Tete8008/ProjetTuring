@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.*;
 
@@ -45,49 +47,15 @@ public class ProjetTuring extends JFrame{
         panelRuban.setSize(new Dimension(super.getWidth(),200));
         panelRuban.setLayout(new FlowLayout());
         
-        JPanel panelExec=new JPanel();
-        panelExec.setBorder(BorderFactory.createTitledBorder("Exécution"));
-        panelExec.setSize(new Dimension(super.getWidth(),200));
+        PanelExec panelExec=new PanelExec(modele);
+        
         
         PanelRuban p=new PanelRuban(modele);
         panelRuban.add(p);
         modele.addObserver(p);
-        
-        JLabel label=new JLabel("Ruban initial: ");
-        JTextField textfield=new JTextField();
-        textfield.setPreferredSize(new Dimension(100,30));
+        modele.addObserver(panelExec);
         
         
-        JButton init=new JButton("Initialiser");
-		
-        init.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				for (int i=0;i<textfield.getText().length();i++) {
-					modele.addChar(i, textfield.getText().charAt(i));
-				}
-			}
-        	
-        });
-        
-        
-        JButton pas=new JButton("Faire un pas");
-		
-        pas.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				modele.addChar(-(modele.ruban.getLeftSize())-1,Character.getName((int)Math.round(Math.random()*50)).toCharArray()[0]);
-				modele.setOffset(modele.ruban.getLeftSize()*p.caseWidth+200);
-				modele.setPosition(modele.getPosition()-1);
-
-			}
-        	
-        });
-        panelExec.add(label);
-        panelExec.add(textfield);
-        panelExec.add(init);
-        panelExec.add(pas);
-        panelExec.setLayout(new FlowLayout());
         this.add(panelExec);
         this.add(panelRuban);
         

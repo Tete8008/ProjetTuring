@@ -21,18 +21,21 @@ public class PanelRuban extends JPanel implements Observer{
 		super();
 		modele=m;
 		marginTop=10;
-		caseWidth=40;
+		caseWidth=modele.getCaseWidth();
 		marginSide=0;
 		offset=0;
 		this.setPreferredSize(new Dimension(500,caseWidth+10+marginTop*2));
-		
+		modele.setOffset(-modele.getPosition()*modele.getCaseWidth()+230);
         
 	}
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
-		
+	
 		this.repaint();
+		
+		
+		
 		
 		
 	}
