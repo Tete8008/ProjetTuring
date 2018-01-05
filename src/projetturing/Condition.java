@@ -30,5 +30,5 @@ public class Condition {
     public void meteorStrike(){
         System.out.println("METEOR STRIKE");
     }
-    
+    //test
 }
