@@ -5,6 +5,10 @@
  */
 package projetturing;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
@@ -22,7 +26,7 @@ public class ProjetTuring extends JFrame{
     /**
      * @param args the command line arguments
      */
-	Machine modele;
+	private Machine modele;
 	
 	public ProjetTuring(final Machine modeleinitial) {
 		if (modeleinitial!=null) {
@@ -35,40 +39,59 @@ public class ProjetTuring extends JFrame{
         modele.addRule(c, new Action(0,'N','>'));
         System.out.println(modele.getAction(new Condition(0,'Z')));
         
-        modele.addChar(0, 'y');
         
+        JPanel panelRuban=new JPanel();
+        panelRuban.setBorder(BorderFactory.createTitledBorder("Ruban"));
+        panelRuban.setSize(new Dimension(super.getWidth(),200));
+        panelRuban.setLayout(new FlowLayout());
+        
+        JPanel panelExec=new JPanel();
+        panelExec.setBorder(BorderFactory.createTitledBorder("Exécution"));
+        panelExec.setSize(new Dimension(super.getWidth(),200));
         
         PanelRuban p=new PanelRuban(modele);
-        
+        panelRuban.add(p);
         modele.addObserver(p);
         
-        Box box=new Box(BoxLayout.PAGE_AXIS);
-        box.add(p);
+        JLabel label=new JLabel("Ruban initial: ");
+        JTextField textfield=new JTextField();
+        textfield.setPreferredSize(new Dimension(100,30));
         
-        JButton add=new JButton("Ajouter charactère à droite");
+        
+        JButton init=new JButton("Initialiser");
 		
-        add.addActionListener(new ActionListener() {
+        init.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				modele.addChar(modele.ruban.getRightSize(),Character.getName((int)Math.round(Math.random()*50)).toCharArray()[0]);
-				modele.setOffset(-modele.ruban.getRightSize()*p.caseWidth+200);
+				for (int i=0;i<textfield.getText().length();i++) {
+					modele.addChar(i, textfield.getText().charAt(i));
+				}
 			}
         	
         });
-        box.add(add);
         
-        JButton add2=new JButton("Ajouter charactère à gauche");
+        
+        JButton pas=new JButton("Faire un pas");
 		
-        add2.addActionListener(new ActionListener() {
+        pas.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				modele.addChar(-(modele.ruban.getLeftSize())-1,Character.getName((int)Math.round(Math.random()*50)).toCharArray()[0]);
 				modele.setOffset(modele.ruban.getLeftSize()*p.caseWidth+200);
+				modele.setPosition(modele.getPosition()-1);
 
 			}
         	
         });
-        box.add(add2);
+        panelExec.add(label);
+        panelExec.add(textfield);
+        panelExec.add(init);
+        panelExec.add(pas);
+        panelExec.setLayout(new FlowLayout());
+        this.add(panelExec);
+        this.add(panelRuban);
+        
+      
         
         this.addMouseWheelListener(new MouseWheelListener() {
 
@@ -81,8 +104,8 @@ public class ProjetTuring extends JFrame{
         	
         });
         
-        
-        this.getContentPane().add(box);
+        //layout pour les 4 grands panels (regles, execution,ruban et historique)
+        this.setLayout(new GridLayout(2,2));
         this.pack();
         this.setTitle("Machine de Turing");
         this.setVisible(true);

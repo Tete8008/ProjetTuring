@@ -3,8 +3,9 @@ package projetturing;
 import java.util.ArrayList;
 
 public class Ruban {
-	public ArrayList<Character> rubandroit;
+	private ArrayList<Character> rubandroit;
 	private ArrayList<Character> rubangauche;
+	private int positionTeteLecture;
 	
 	public Ruban() {
 		rubandroit=new ArrayList<Character>();

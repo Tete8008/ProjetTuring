@@ -1,5 +1,6 @@
 package projetturing;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -19,12 +20,11 @@ public class PanelRuban extends JPanel implements Observer{
 	public PanelRuban(Machine m) {
 		super();
 		modele=m;
-		marginTop=150;
+		marginTop=10;
 		caseWidth=40;
 		marginSide=0;
 		offset=0;
-		
-		this.setPreferredSize(new Dimension(500,500));
+		this.setPreferredSize(new Dimension(500,caseWidth+10+marginTop*2));
 		
         
 	}
@@ -39,11 +39,12 @@ public class PanelRuban extends JPanel implements Observer{
 	
 	public void paint(Graphics g) {
 		//fixe
+		g.setColor(Color.black);
 		super.paintComponent(g);
 		g.drawLine(marginSide, marginTop,this.getWidth()-marginSide, marginTop);
 		g.drawLine(marginSide, marginTop+caseWidth,this.getWidth()-marginSide, marginTop+caseWidth);
 		g.drawLine(marginSide, marginTop,marginSide, marginTop+caseWidth);
-		g.drawLine(this.getWidth()-marginSide, marginTop,this.getWidth()-marginSide, marginTop+caseWidth);
+		//g.drawLine(this.getWidth()-marginSide, marginTop,this.getWidth()-marginSide, marginTop+caseWidth);
 
 		
 				
@@ -61,6 +62,11 @@ public class PanelRuban extends JPanel implements Observer{
 		for (int i=-modele.ruban.getLeftSize();i<modele.ruban.getRightSize();i++) {
 			g.drawString(modele.ruban.getChar(i).toString(),modele.getOffset()+marginSide+caseWidth/2+caseWidth*i,marginTop+caseWidth/2);
 		}
+		
+		
+		//tête de lecture:
+		g.setColor(Color.red);
+		g.drawRect(modele.getOffset()+marginSide+modele.getPosition()*caseWidth+2, marginTop-5, caseWidth-4,caseWidth+10);
 		
 	}
 
